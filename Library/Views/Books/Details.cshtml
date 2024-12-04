@@ -1,0 +1,202 @@
+@model YourNamespace.Models.Book
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .top-nav {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+            .top-nav a {
+                color: white;
+                margin: 0 15px;
+                text-decoration: none;
+            }
+
+        .container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            margin-top: 60px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f0e2d6;
+            padding-top: 20px;
+            padding-left: 20px;
+            text-align: left;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+            .sidebar ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .sidebar li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .sidebar img {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+            }
+
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+            width: calc(100% - 200px);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        .header {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .book-details-container {
+            display: flex;
+            background-color: #f4e1d2;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            gap: 40px;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .book-image {
+            width: 300px;
+            height: 100%;
+            max-height: 80vh;
+            background-color: #000;
+            background-image: url('@Model.ImageUrl');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .book-info {
+            flex: 1;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+            .book-info h2 {
+                margin-bottom: 20px;
+            }
+
+            .book-info p {
+                margin-bottom: 15px;
+            }
+
+        .order-button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-button {
+            background-color: #333;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .order-button:hover {
+                background-color: #555;
+            }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <a href="/">Home</a>
+        <a href="/Home/About">About</a>
+        <a href="/Home/Contact">Contact</a>
+        <a href="#">Categories</a>
+        <a href="/Books/Index">Books</a>
+        <a href="/User">Profile</a>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><img src="/images/icon1.png" alt="Category 1"> <span>Category 1</span></li>
+                <li><img src="/images/icon2.png" alt="Category 2"> <span>Category 2</span></li>
+                <li><img src="/images/icon3.png" alt="Category 3"> <span>Category 3</span></li>
+            </ul>
+        </aside>
+
+        <div class="main-content">
+            <div class="header">
+                Book Details
+            </div>
+
+            <div class="book-details-container">
+                <div class="book-image">
+                </div>
+
+                <div class="book-info">
+                    <h2>@Model.Title</h2>
+                    <p><strong>Author:</strong> @Model.Author</p>
+                    <p><strong>Description:</strong> @Model.Description</p>
+                    <p><strong>Release Date:</strong> @Model.PublicationDate.ToShortDateString()</p>
+                    <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+                </div>
+
+                <div class="order-button-container">
+                    <a href="/Order/Create?bookId=@Model.Id" class="order-button">Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

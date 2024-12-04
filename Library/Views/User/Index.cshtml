@@ -1,0 +1,185 @@
+@model Library.Models.User
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .top-nav {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+            .top-nav a {
+                color: white;
+                margin: 0 15px;
+                text-decoration: none;
+            }
+
+        .container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            margin-top: 60px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f0e2d6;
+            padding-top: 20px;
+            padding-left: 20px;
+            text-align: left;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+            .sidebar ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .sidebar li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .sidebar img {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+            }
+
+        .main-content {
+            margin-left: 20px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        .header {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile-container {
+            display: flex;
+            background-color: #f4e1d2;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            gap: 40px;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .profile-picture {
+            width: 250px;
+            height: 250px;
+            background-color: #000;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            border-radius: 10px;
+            background-image: url('@Model.ProfilePictureUrl');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .profile-info {
+            font-size: 1.2em;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+            .profile-info p {
+                margin-bottom: 15px;
+            }
+
+            .profile-info label {
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <a href="/">Home</a>
+        <a href="/Home/About">About</a>
+        <a href="/Home/Contact">Contact</a>
+        <a href="#">Categories</a>
+        <a href="/Books/Index">Books</a>
+        <a href="/User">Profile</a>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><img src="/images/icon1.png" alt="Category 1"> <span>Category 1</span></li>
+                <li><img src="/images/icon2.png" alt="Category 2"> <span>Category 2</span></li>
+                <li><img src="/images/icon3.png" alt="Category 3"> <span>Category 3</span></li>
+            </ul>
+        </aside>
+
+        <div class="main-content">
+            <div class="header">
+                Profile
+            </div>
+
+            <div class="profile-container">
+                <div class="profile-picture">
+                    <!-- If no profile image, show text "ProfilePicture" -->
+                    @if (string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                    {
+                        <span>ProfilePicture</span>
+                    }
+                </div>
+
+                <div class="profile-info">
+                    <p><label>First Name:</label> @Model.FirstName</p>
+                    <p><label>Last Name:</label> @Model.LastName</p>
+                    <p><label>Age:</label> @Model.Age</p>
+                    <p><label>Email:</label> @Model.Email</p>
+                    <p><label>Joined on:</label> @Model.DateJoined.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
