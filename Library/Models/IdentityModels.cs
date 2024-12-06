@@ -1,8 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.Models
 {
@@ -16,6 +19,19 @@ namespace Library.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [Display(Name = "Joined on")]
+        [DataType(DataType.Date)]
+        public DateTime DateJoined { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public string ProfilePictureUrl { get; set; }
+        public bool IsApproved { get; set; } = true;
+        public bool IsBlocked { get; set; } = false;
+        public DateTime? BlockedUntil { get; set; } = null;
+
+        public virtual ICollection<Borrow> Borrows { get; set; }
+        public virtual ICollection<SearchHistory> SearchHistories { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

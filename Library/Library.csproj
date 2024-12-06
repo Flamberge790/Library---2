@@ -168,10 +168,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookFIle.cs" />
+    <Compile Include="Models\BookTag.cs" />
+    <Compile Include="Models\Borrow.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\SearchHistory.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\WaitList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

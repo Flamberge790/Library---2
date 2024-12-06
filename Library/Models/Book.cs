@@ -1,27 +1,51 @@
-namespace YourNamespace.Models
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Library.Models
 {
     public class Book
     {
+        [Key]
         public int Id { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Title")]
+        [Required]
+        [StringLength(255)]
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Author")]
+        [Required]
+        [StringLength(255)]
+        [Display(Name = "Author")]
         public string Author { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Release Date")]
-        [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+        [Display(Name = "Table of Contents")]
+        public string TableOfContents { get; set; }
+
+        [Display(Name = "ISBN")]
+        public string ISBN { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public ICollection<BookTag> BookTags { get; set; }
+
+        [Display(Name = "Release Date")]
+        [DataType(DataType.Date)]
         public System.DateTime PublicationDate { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Price")]
-        [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Currency)]
-        public decimal Price { get; set; }
+        [Display(Name = "Cover")]
+        public string BookCoverUrl { get; set; }
+        public virtual ICollection<BookFIle> Files { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Cover")]
-        public string ImageUrl { get; set; }
+        [Display(Name = "Stock")]
+        public int Stock { get; set; }
+        public virtual ICollection<WaitList> Waitlist { get; set; }
     }
 }
