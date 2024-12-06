@@ -1,0 +1,42 @@
+﻿@model Library.Models.SearchHistory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SearchHistory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.ProfilePictureUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.ProfilePictureUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Query)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Query)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SearchDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SearchDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

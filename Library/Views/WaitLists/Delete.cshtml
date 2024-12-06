@@ -1,0 +1,48 @@
+﻿@model Library.Models.WaitList
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WaitList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.ProfilePictureUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.ProfilePictureUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnqueuedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnqueuedAt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
