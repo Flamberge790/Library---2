@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 namespace Library.Models
 {
@@ -45,5 +46,14 @@ namespace Library.Models
         {
             return new ApplicationDbContext();
         }
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookFIle> BookFiles { get; set; }
+        public DbSet<BookTag> BookTags { get; set; }
+        public DbSet<Borrow> Borrows { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SearchHistory> SearchHistories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<WaitList> WaitLists { get; set; }
     }
 }
