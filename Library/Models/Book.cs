@@ -30,11 +30,12 @@ namespace Library.Models
         public string ISBN { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
-        public ICollection<BookTag> BookTags { get; set; }
+        public ICollection<BookTag> BookTags { get; set; } = new HashSet<BookTag>();
 
         [Display(Name = "Release Date")]
         [DataType(DataType.Date)]

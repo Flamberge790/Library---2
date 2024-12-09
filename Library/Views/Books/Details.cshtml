@@ -82,6 +82,25 @@
             @Html.DisplayFor(model => model.Stock)
         </dd>
 
+        <h3>Tags</h3>
+        @if (Model.BookTags != null && Model.BookTags.Any())
+        {
+            <ul>
+                @foreach (var bookTag in Model.BookTags)
+                {
+                    <li>@bookTag.Tag.Name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No tags assigned.</p>
+        }
+        <p>
+            @Html.ActionLink("Add Tag", "AssignTag", new { bookId = Model.Id })
+        </p>
+
+
     </dl>
 </div>
 <p>

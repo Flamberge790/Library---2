@@ -23,7 +23,7 @@ namespace Library.Models
 
         [Display(Name = "Joined on")]
         [DataType(DataType.Date)]
-        public DateTime DateJoined { get; set; }
+        public DateTime DateJoined { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Profile Picture")]
         public string ProfilePictureUrl { get; set; }

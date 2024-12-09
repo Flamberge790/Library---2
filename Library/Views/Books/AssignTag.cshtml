@@ -1,0 +1,20 @@
+﻿@model Library.Models.Book
+
+@{
+    ViewBag.Title = "Assign Tag to Book";
+}
+
+<h2>Assign Tag</h2>
+
+@using (Html.BeginForm("AssignTag", "Books", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("bookId", Model.Id)
+
+    <div class="form-group">
+        <label for="tagId">Choose a Tag:</label>
+        @Html.DropDownList("TagId", ViewBag.Tags as SelectList, "Select a Tag", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign Tag</button>
+}

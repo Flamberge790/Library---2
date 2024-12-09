@@ -316,6 +316,7 @@
     <Content Include="Views\WaitLists\Details.cshtml" />
     <Content Include="Views\WaitLists\Edit.cshtml" />
     <Content Include="Views\WaitLists\Index.cshtml" />
+    <Content Include="Views\Books\AssignTag.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

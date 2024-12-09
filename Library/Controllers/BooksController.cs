@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -28,7 +29,10 @@ namespace Library.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            //Book book = db.Books.Find(id);
+            Book book = db.Books
+                       .Include(b => b.BookTags.Select(bt => bt.Tag))
+                       .FirstOrDefault(b => b.Id == id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -128,5 +132,40 @@ namespace Library.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpGet]
+        public ActionResult AssignTag(int bookId)
+        {
+            var book = db.Books.Find(bookId);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Tags = new SelectList(db.Tags, "Id", "Name");
+            return View(book);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignTag(int bookId, int tagId)
+        {
+            var existsBookTag = db.BookTags.FirstOrDefault(bt => bt.BookId == bookId && bt.TagId == tagId);
+
+            if (existsBookTag == null)
+            {
+                BookTag newBookTag = new BookTag
+                {
+                    BookId = bookId,
+                    TagId = tagId
+                };
+
+                db.BookTags.Add(newBookTag);
+                db.SaveChanges();
+            }
+            //Debug.WriteLine($"BookId: {bookId}, TagId: {tagId}");
+            return RedirectToAction("Details", "Books", new { id = bookId });
+        }
+
     }
 }
