@@ -16,9 +16,50 @@ namespace Library.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Books
-        public ActionResult Index()
+        public ActionResult Index(string searchQuery, string searchOperator = "||")
         {
             var books = db.Books.Include(b => b.Category);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var terms = searchQuery.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if(searchOperator == "&&")
+                {
+                    foreach (var term in terms)
+                    {
+                        books = books.Where(b => 
+                            b.Title.ToLower().Contains(term.ToLower()) ||
+                            b.Author.ToLower().Contains(term.ToLower()) ||
+                            b.ISBN.Contains(term)
+                        );
+                    }
+                }
+                else if (searchOperator == "||")
+                {
+                    foreach (var term in terms)
+                    {
+                        books = books.Where(b => terms.Any(t =>
+                            b.Title.ToLower().Contains(t.ToLower()) ||
+                            b.Author.ToLower().Contains(t.ToLower()) ||
+                            b.ISBN.Contains(t)
+                            )
+                        );
+                    }
+                }
+                else
+                {
+                    foreach (var term in terms)
+                    {
+                        books = books.Where(b => terms.All(t => 
+                            !b.Title.ToLower().Contains(t.ToLower()) &&
+                            !b.Author.ToLower().Contains(t.ToLower()) &&
+                            !b.ISBN.Contains(t)
+                            )
+                        );
+                    }
+                }
+            }
             return View(books.ToList());
         }
 
