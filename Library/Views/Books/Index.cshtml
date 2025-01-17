@@ -1,94 +1,131 @@
 ﻿@model IEnumerable<Library.Models.Book>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Books List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-<form asp-action="Index" method="get">
-    <input type="text" name="searchQuery" placeholder="Search by name, author, or ISBN" />
-    <select name="searchOperator">
-        <option value="||">OR</option>
-        <option value="&&">AND</option>
-        <option value="~~">NOT</option>
-    </select>
-    <button type="submit">Search</button>
-</form>
-
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TableOfContents)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublicationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookCoverUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TableOfContents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ISBN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublicationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookCoverUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+<style>
+    body {
+        background-color: #f8f5f2; /* Delikatny beżowy kolor tła */
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
-</table>
+    .container-fullscreen {
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff; /* Białe tło dla głównej sekcji */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+        color: #5a3e36; /* Ciepły odcień brązu */
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #0056b3;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: #fff;
+    }
+
+        .table th {
+            background-color: #f4eae0; /* Beżowy odcień dla nagłówka */
+            color: #5a3e36; /* Brązowy tekst */
+            text-align: center;
+        }
+
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .img-thumbnail {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    /* Footer styling */
+    footer {
+        background-color: #5a3e36;
+        color: #fff;
+        text-align: center;
+        padding: 15px 0;
+        border-top: 3px solid #d4af37;
+        margin-top: auto;
+    }
+
+        footer p {
+            margin: 0;
+        }
+</style>
+
+<div class="container-fullscreen">
+    <h1>Books List</h1>
+
+    <div class="d-flex justify-content-end">
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </div>
+
+    <table class="table table-hover table-bordered align-middle">
+        <thead>
+            <tr>
+                <th style="width: 15%;">Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>ISBN</th>
+                <th>Release Date</th>
+                <th>Stock</th>
+                <th style="width: 20%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <!-- Dynamiczne przypisywanie obrazów -->
+                        <img src="../wwwroot/images/@(item.BookCoverUrl ?? "1.jpg")" alt="Cover" class="img-thumbnail" style="max-width: 100px; height: auto;" />
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PublicationDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Stock)</td>
+                    <td>
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
