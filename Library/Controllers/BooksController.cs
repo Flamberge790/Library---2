@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Library.Models;
 
 namespace Library.Controllers
@@ -82,6 +83,7 @@ namespace Library.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
@@ -107,6 +109,7 @@ namespace Library.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -140,6 +143,7 @@ namespace Library.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -175,6 +179,7 @@ namespace Library.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,employee")]
         public ActionResult AssignTag(int bookId)
         {
             var book = db.Books.Find(bookId);

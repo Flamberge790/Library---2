@@ -16,9 +16,14 @@ namespace Library.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Borrows
+        [Authorize(Roles = "admin,employee,user")]
         public ActionResult Index()
         {
-            var borrows = db.Borrows.Include(b => b.Book).Include(b => b.User);
+            var userId = User.Identity.GetUserId();
+            var borrows = db.Borrows
+                            .Include(b => b.Book)
+                            .Include(b => b.User)
+                            .Where(b => b.UserId == userId);
             return View(borrows.ToList());
         }
 
@@ -38,6 +43,7 @@ namespace Library.Controllers
         }
 
         // GET: Borrows/Create
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Create()
         {
             ViewBag.BookId = new SelectList(db.Books, "Id", "Title");
@@ -65,6 +71,7 @@ namespace Library.Controllers
         }
 
         // GET: Borrows/Edit/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -100,6 +107,7 @@ namespace Library.Controllers
         }
 
         // GET: Borrows/Delete/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -134,7 +142,7 @@ namespace Library.Controllers
             }
             base.Dispose(disposing);
         }
-
+        [Authorize(Roles = "admin,employee,user")]
         public ActionResult CreateBorrow(int bookId)
         {
             var userId = User.Identity.GetUserId();
@@ -171,6 +179,7 @@ namespace Library.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin,employee,user")]
         public ActionResult RemoveBorrow(int bookId, int borrowId)
         {
             var book = db.Books.Find(bookId);
