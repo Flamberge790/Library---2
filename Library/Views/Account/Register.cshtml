@@ -4,38 +4,52 @@
 }
 
 <main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
+    <!-- Main header for register page -->
+    <h2 id="title">Register</h2>
+    <p>Log in if you already have an account.</p>
 
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <h4>Create a new account.</h4>
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="row">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-outline-dark" />
-            </div>
-        </div>
-    }
+    <div class="form-container">
+        <section id="registerForm">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <!-- Validation summary -->
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                <!-- Email field -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, "Email Address", new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error-message" })
+                </div>
+
+                <!-- Password field -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, "Password", new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error-message" })
+                </div>
+
+                <!-- Confirm password field -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, "Confirm Password", new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "error-message" })
+                </div>
+
+                <!-- Submit button -->
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn btn-primary" />
+                </div>
+
+                <!-- Login link -->
+                <p>
+                    Already have an account? @Html.ActionLink("Log in", "Login", new { @class = "btn-link" })
+                </p>
+            }
+        </section>
+    </div>
 </main>
 
 @section Scripts {
