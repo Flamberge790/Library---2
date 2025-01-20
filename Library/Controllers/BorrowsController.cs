@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Library.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Library.Controllers
 {
@@ -119,6 +120,7 @@ namespace Library.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Borrow borrow = db.Borrows.Find(id);
+            borrow.Status = LoanStatus.Available;
             db.Borrows.Remove(borrow);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -132,5 +134,42 @@ namespace Library.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult CreateBorrow(int bookId)
+        {
+            var userId = User.Identity.GetUserId();
+            var book = db.Books.Find(bookId);
+
+            if (book.Stock > 0)
+            {
+                var borrow = new Borrow
+                {
+                    UserId = userId,
+                    BookId = bookId,
+                    BorrowDate = DateTime.UtcNow,
+                    ReturnDate = null,
+                    Status = LoanStatus.Borrowed
+                };
+                book.Stock -= 1;
+                db.Borrows.Add(borrow);
+                db.SaveChanges();
+            }
+            else
+            {
+                var borrow = new Borrow
+                {
+                    UserId = userId,
+                    BookId = bookId,
+                    BorrowDate = DateTime.UtcNow,
+                    ReturnDate = null,
+                    Status = LoanStatus.Queued
+                };
+                db.Borrows.Add(borrow);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

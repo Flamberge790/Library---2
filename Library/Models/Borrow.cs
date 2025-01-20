@@ -34,8 +34,8 @@ namespace Library.Models
 
     public enum LoanStatus
     {
-        InStock,
-        AwaitingPickup,
-        Borrowed
+        Available,
+        Borrowed,
+        Queued
     }
 }
