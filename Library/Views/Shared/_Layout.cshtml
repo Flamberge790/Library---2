@@ -8,28 +8,65 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <style>
-        /* Header Styling */
+        :root {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --navbar-color: #5a3e36;
+            --footer-color: #5a3e36;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #ffffff;
+            --navbar-color: #333333;
+            --footer-color: #333333;
+        }
+
+        [data-theme="custom"] {
+            --background-color: #f0f8ff; /* Light blue */
+            --text-color: #000080; /* Navy */
+            --navbar-color: #4682b4; /* Steel blue */
+            --footer-color: #4682b4; /* Steel blue */
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .body-content {
+            flex-grow: 1;
+        }
+
         nav.navbar {
-            background-color: #5a3e36; /* Ciepły brązowy kolor */
-            border-bottom: 3px solid #d4af37; /* Złota linia pod nagłówkiem */
+            background-color: var(--navbar-color);
+            border-bottom: 3px solid #d4af37;
         }
 
             nav.navbar .navbar-brand {
                 font-family: 'Arial', sans-serif;
                 font-size: 1.8rem;
                 font-weight: bold;
-                color: #ffffff !important; /* Białe logo */
+                color: var(--text-color) !important;
             }
 
             nav.navbar .nav-link {
-                color: #ffffff !important; /* Białe linki */
+                color: var(--text-color) !important;
                 font-size: 1.1rem;
                 font-weight: 500;
                 margin-right: 15px;
             }
 
                 nav.navbar .nav-link:hover {
-                    color: #d4af37 !important; /* Złoty efekt przy najechaniu */
+                    color: #d4af37 !important;
                     text-decoration: underline;
                 }
 
@@ -49,10 +86,9 @@
                 margin-right: 15px;
             }
 
-        /* Footer Styling */
         footer {
-            background-color: #5a3e36;
-            color: #fff;
+            background-color: var(--footer-color);
+            color: var(--text-color);
             text-align: center;
             padding: 15px 0;
             border-top: 3px solid #d4af37;
@@ -61,44 +97,67 @@
             footer p {
                 margin: 0;
             }
+
+        .theme-toggle {
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            @Html.ActionLink("Library Service", "Index", "Home", null, new { @class = "navbar-brand" })
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Books", "Index", "Books", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Categories", "Index", "Categories", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
-                    </li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+    <div class="page-container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                @Html.ActionLink("Library Service", "Index", "Home", null, new { @class = "navbar-brand" })
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            @Html.ActionLink("Books", "Index", "Books", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Categories", "Index", "Categories", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Cart", "Index", "Borrows", null, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+        
             </div>
+        </nav>
+
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Library Service</p>        
+            <button class="theme-toggle" onclick="toggleTheme('light')">Light Theme</button>
+            <button class="theme-toggle" onclick="toggleTheme('dark')">Dark Theme</button>
+            <button class="theme-toggle" onclick="toggleTheme('custom')">Custom Theme</button>
+        </footer>
     </div>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Library Service</p>
-    </footer>
+
+    <script>
+        function toggleTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    </script>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
