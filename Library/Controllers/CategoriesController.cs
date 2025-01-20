@@ -37,6 +37,7 @@ namespace Library.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Create()
         {
             ViewBag.ParentCategoryId = new SelectList(db.Categories, "Id", "Name");
@@ -62,6 +63,7 @@ namespace Library.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -95,6 +97,7 @@ namespace Library.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize(Roles = "admin,employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
