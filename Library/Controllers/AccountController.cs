@@ -422,15 +422,7 @@ namespace Library.Controllers
 
             base.Dispose(disposing);
         }
-        [Authorize]
-        public ActionResult Profil()
-        {
-            // Pobierz dane użytkownika i historię wypożyczeń
-            var userId = User.Identity.GetUserId();
-
-            return View();
-        }
-
+       
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
