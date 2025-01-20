@@ -49,7 +49,7 @@
 </style>
 
 <div class="container-fullscreen">
-    <h1>Recently Added Books</h1>
+    <h1>New Books</h1>
 
     @if (Model == null || !Model.Any())
     {
@@ -58,12 +58,12 @@
     else
     {
         <div class="row">
-            @foreach (var book in Model)
+            @foreach (var book in Model.Take(3))
             {
                 <div class="col-md-4 book-card">
                     <a href="@Url.Action("Details", "Books", new { id = book.Id })">
-                        <img src="~/images/@(string.IsNullOrEmpty(book.BookCoverUrl) ? "default.jpg" : book.BookCoverUrl)"
-                             alt="Book Cover" />
+                        <img src="../wwwroot/images/@(string.IsNullOrEmpty(book.BookCoverUrl) ? "1.jpg" : book.BookCoverUrl)"
+                             alt="@book.Title" />
                     </a>
                     <h5>@book.Title</h5>
                 </div>
