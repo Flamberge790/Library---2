@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.ActionLink("Return", "Delete", new { id=item.Id })
+            @Html.ActionLink("Return", "RemoveBorrow", new { bookId = item.BookId, borrowId = item.Id })
         </td>
     </tr>
 }

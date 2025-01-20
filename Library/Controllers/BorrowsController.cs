@@ -171,5 +171,16 @@ namespace Library.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult RemoveBorrow(int bookId, int borrowId)
+        {
+            var book = db.Books.Find(bookId);
+            book.Stock += 1;
+            Borrow borrow = db.Borrows.Find(borrowId);
+            borrow.Status = LoanStatus.Available;
+            db.Borrows.Remove(borrow);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
