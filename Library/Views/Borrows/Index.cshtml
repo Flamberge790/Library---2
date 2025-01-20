@@ -1,46 +1,77 @@
 ﻿@model IEnumerable<Library.Models.Borrow>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Your Cart";
 }
 
-<h2>Your Cart</h2>
+<style>
+    h2 {
+        color: #5a3e36;
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Book.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BorrowDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReturnDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BorrowDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReturnDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Return", "RemoveBorrow", new { bookId = item.BookId, borrowId = item.Id })
-        </td>
-    </tr>
-}
+        .table th {
+            background-color: #f4eae0;
+            color: #5a3e36;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
 
-</table>
+        .table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .action-links {
+        display: flex;
+        gap: 10px;
+    }
+
+        .action-links a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .action-links a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<div class="container">
+    <h2>Your Cart</h2>
+
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Book.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().BorrowDate)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ReturnDate)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Status)</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Book.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.BorrowDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReturnDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td class="action-links">
+                    <a href="@Url.Action("RemoveBorrow", new { bookId = item.BookId, borrowId = item.Id })">Return</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

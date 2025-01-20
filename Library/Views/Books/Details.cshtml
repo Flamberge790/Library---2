@@ -4,84 +4,105 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    .details-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        font-family: 'Arial', sans-serif;
+    }
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
+    h2, h3 {
+        color: #5a3e36;
+        text-align: center;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
+    dl {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px 0;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    dt, dd {
+        width: 50%;
+        margin-bottom: 10px;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    dt {
+        font-weight: bold;
+        color: #5a3e36;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
+    dd {
+        color: #333;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
+    .tags-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+        .tags-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            .tags-section ul li {
+                display: inline-block;
+                margin: 5px;
+                padding: 5px 10px;
+                background-color: #5a3e36;
+                color: #fff;
+                border-radius: 5px;
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TableOfContents)
-        </dt>
+    .action-links a {
+        display: inline-block;
+        margin: 10px 5px;
+        padding: 10px 15px;
+        background-color: #5a3e36;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.TableOfContents)
-        </dd>
+        .action-links a:hover {
+            background-color: #453026;
+        }
+</style>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
+<div class="details-container">
+    <h2>Details</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
+    <dl>
+        <dt>Category</dt>
+        <dd>@Html.DisplayFor(model => model.Category.Name)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PublicationDate)
-        </dt>
+        <dt>Title</dt>
+        <dd>@Html.DisplayFor(model => model.Title)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PublicationDate)
-        </dd>
+        <dt>Author</dt>
+        <dd>@Html.DisplayFor(model => model.Author)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BookCoverUrl)
-        </dt>
+        <dt>Description</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BookCoverUrl)
-        </dd>
+        <dt>ISBN</dt>
+        <dd>@Html.DisplayFor(model => model.ISBN)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
+        <dt>Publication Date</dt>
+        <dd>@Html.DisplayFor(model => model.PublicationDate)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
+        <dt>Stock</dt>
+        <dd>@Html.DisplayFor(model => model.Stock)</dd>
+    </dl>
 
+    <div class="tags-section">
         <h3>Tags</h3>
         @if (Model.BookTags != null && Model.BookTags.Any())
         {
@@ -96,14 +117,20 @@
         {
             <p>No tags assigned.</p>
         }
-        <p>
-            @Html.ActionLink("Add Tag", "AssignTag", new { bookId = Model.Id })
-        </p>
 
+        @if (User.IsInRole("employee") || User.IsInRole("admin"))
+        {
+            <p>
+                <a href="@Url.Action("AssignTag", new { bookId = Model.Id })">Add Tag</a>
+            </p>
+        }
+    </div>
 
-    </dl>
+    <div class="action-links">
+        @if (User.IsInRole("employee") || User.IsInRole("admin"))
+        {
+            <a href="@Url.Action("Edit", new { id = Model.Id })">Edit</a>
+        }
+        <a href="@Url.Action("Index")">Back to List</a>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

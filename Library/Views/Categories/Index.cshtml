@@ -66,25 +66,32 @@
 
 <div class="container">
     <h2>Category</h2>
-
-    <p>
-        <a class="create-link" href="@Url.Action("Create")">Create New</a>
-    </p>
-
+    @if (User.IsInRole("employee") || User.IsInRole("admin"))
+    {
+        <p>
+            <a class="create-link" href="@Url.Action("Create")">Create New</a>
+        </p>
+    }
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Name)</th>
-            <th>Actions</th>
+            @if (User.IsInRole("employee") || User.IsInRole("admin"))
+            {
+                <th>Actions</th>
+            }
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td class="action-links">
-                    <a href="@Url.Action("Edit", new { id = item.Id })">Edit</a>
-                    <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
-                </td>
+                @if (User.IsInRole("employee") || User.IsInRole("admin"))
+                {
+                    <td class="action-links">
+                        <a href="@Url.Action("Edit", new { id = item.Id })">Edit</a>
+                        <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
+                    </td>
+                }
             </tr>
         }
     </table>

@@ -10,7 +10,7 @@
         width: 100%;
         max-width: 1200px;
         margin: 20px auto;
-        padding: 20px; 
+        padding: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
     }
@@ -98,11 +98,12 @@
         </select>
         <button type="submit">Search</button>
     </form>
-
-    <div class="d-flex justify-content-end">
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
-    </div>
-
+    @if (User.IsInRole("employee") || User.IsInRole("admin"))
+    {
+        <div class="d-flex justify-content-end">
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+        </div>
+    }
     <table class="table table-hover table-bordered align-middle">
         <thead>
             <tr>
@@ -133,7 +134,7 @@
                     <td>@Html.DisplayFor(modelItem => item.PublicationDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.Stock)</td>
                     <td>
-                        @if (User.IsInRole("employee"))
+                        @if (User.IsInRole("employee") || User.IsInRole("admin"))
                         {
                             <div class="btn-group">
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
