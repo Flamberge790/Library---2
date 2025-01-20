@@ -174,13 +174,28 @@ namespace Library.Controllers
         public ActionResult RemoveBorrow(int bookId, int borrowId)
         {
             var book = db.Books.Find(bookId);
-            book.Stock += 1;
             Borrow borrow = db.Borrows.Find(borrowId);
+            if (borrow.Status == LoanStatus.Borrowed)
+            {
+                book.Stock += 1;
+            }
             borrow.Status = LoanStatus.Available;
             db.Borrows.Remove(borrow);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
+        /*
+        public string Createur()
+        {
+            IdentityManager im = new IdentityManager();
+            im.CreateRole("User");
+            im.CreateRole("Employee");
+            im.CreateRole("Admin");
+            //im.AddUserToRoleByUsername("dawid.dz1337@gmail.com", "user");
+            string result;
+            return "OK";
+        }
+        */
     }
 }

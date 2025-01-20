@@ -133,7 +133,7 @@
                     <td>@Html.DisplayFor(modelItem => item.PublicationDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.Stock)</td>
                     <td>
-                        @if (false)
+                        @if (User.IsInRole("employee"))
                         {
                             <div class="btn-group">
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })

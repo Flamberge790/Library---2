@@ -363,3 +363,8 @@ FodyWeavers.xsd
 /Library/Web.config
 /Library/Web.Debug.config
 /Library/Web.Release.config
+/Library/App_Data/aspnet-Library-20241204102440.mdf
+/Library/App_Data/aspnet-Library-20241204102440_log.ldf
+/Library/Web.config
+/Library/Web.Debug.config
+/Library/Web.Release.config

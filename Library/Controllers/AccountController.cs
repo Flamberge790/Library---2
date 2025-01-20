@@ -151,12 +151,14 @@ namespace Library.Controllers
         {
             if (ModelState.IsValid)
             {
+                IdentityManager im = new IdentityManager();
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    im.AddUserToRole(user.Id.ToString(), "employee");
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
