@@ -77,10 +77,48 @@
         footer p {
             margin: 0;
         }
+
+    .search-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+        .search-bar input, .search-bar select {
+            padding: 5px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .search-bar button:hover {
+                background-color: #0056b3;
+            }
 </style>
 
 <div class="container-fullscreen">
     <h1>Books List</h1>
+
+    <!-- Pasek wyszukiwania -->
+    <form asp-action="Index" method="get" class="search-bar">
+        <input type="text" name="searchQuery" placeholder="Search by title, author, or ISBN" />
+        <select name="searchOperator">
+            <option value="||">OR</option>
+            <option value="&&">AND</option>
+            <option value="~~">NOT</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
 
     <div class="d-flex justify-content-end">
         @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
@@ -105,8 +143,8 @@
             {
                 <tr>
                     <td>
-                        <!-- Dynamiczne przypisywanie obrazów -->
-                        <img src="../wwwroot/images/@(item.BookCoverUrl ?? "1.jpg")" alt="Cover" class="img-thumbnail" style="max-width: 100px; height: auto;" />
+                        <img src="../wwwroot/images/@(string.IsNullOrEmpty(item.BookCoverUrl) ? "1.jpg" : item.BookCoverUrl)"
+                             alt="Cover" class="img-thumbnail" style="max-width: 100px; height: auto;" />
                     </td>
                     <td>@Html.DisplayFor(modelItem => item.Title)</td>
                     <td>@Html.DisplayFor(modelItem => item.Author)</td>
@@ -127,4 +165,3 @@
         </tbody>
     </table>
 </div>
-
